@@ -8,237 +8,283 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom font import for a cleaner look */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        
-        /* Ensure that Arabic and Kurdish text display correctly */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Noto+Sans+Arabic:wght@300;500;800&display=swap');
         
         body {
-            font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
-            /* Set a neutral starting background color */
-            background-color: #f4f7f9; 
-            /* ADDED: Smooth transition for background color changes */
-            transition: background-color 2.0s ease-in-out;
-            text-align: right; /* Default alignment for RTL content */
+            font-family: 'Noto Sans Arabic', 'Outfit', sans-serif;
+            background-color: #0f172a; /* Dark base for colors to pop */
+            color: #1e293b;
+            overflow-x: hidden;
         }
-        .main-container {
-            background-color: #ffffff; /* Explicitly set main container background */
-            text-align: right;
-        }
-        /* Override default Tailwind left alignment for specific elements if needed */
-        .text-center {
-            text-align: center;
-        }
-        /* Style for the custom modal box */
-        .modal-overlay {
+
+        /* --- Creative Background Animation --- */
+        .ambient-light {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            overflow: hidden;
+            z-index: -1;
+            background: #f8fafc;
         }
-        .modal-content {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            max-width: 90%;
-            width: 400px;
-            animation: fadeIn 0.3s ease-out;
-            text-align: right;
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out alternate;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .orb-1 {
+            top: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(to bottom right, #818cf8, #c084fc);
+            animation-delay: 0s;
         }
-        /* Loading spinner style */
-        .spinner {
-            border-top-color: transparent;
+        .orb-2 {
+            bottom: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(to top left, #34d399, #2dd4bf);
+            animation-delay: -5s;
         }
-        /* Image container to ensure aspect ratio and loading consistency */
-        #image-output {
+        .orb-3 {
+            top: 40%;
+            left: 40%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(to right, #f472b6, #fbbf24);
+            animation-delay: -10s;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(30px, 50px) rotate(20deg); }
+        }
+
+        /* --- Glass Effect --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- Golden Ticket Shimmer --- */
+        .golden-ticket {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
             position: relative;
-            aspect-ratio: 16 / 9; /* Standard widescreen aspect ratio */
-            background-color: #e5e7eb; /* Light gray background during loading */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
         }
-        #destination-image {
-            object-fit: cover;
+        .golden-ticket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255, 215, 0, 0.3) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            animation: shimmer 3s infinite ease-in-out;
+        }
+        @keyframes shimmer {
+            0% { left: -150%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* --- Animations --- */
+        .pop-in {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
-            transition: opacity 0.5s;
+            transform: scale(0.95);
         }
-        #destination-image.loaded {
-            opacity: 1;
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Modal */
+        .modal-overlay {
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 flex-col">
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <!-- Creative Background -->
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
     <!-- Modal Placeholder -->
     <div id="custom-modal"></div>
 
-    <!-- Main Container -->
-    <div id="main-content" class="main-container w-full max-w-lg p-8 rounded-2xl shadow-2xl transition-all duration-300">
+    <!-- Main Glass Container -->
+    <div id="main-content" class="glass-panel w-full max-w-xl p-6 sm:p-8 rounded-[2.5rem] shadow-2xl transition-all duration-300 relative z-10 flex flex-col pop-in" style="animation-delay: 0.1s;">
 
         <!-- Header -->
-        <header class="text-center mb-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-3 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-            </svg>
-            <!-- COMPANY NAME -->
-            <p class="text-xl font-semibold text-gray-700 mb-1">
-                Gashtyar Travel & Tourism
-            </p>
-            <h1 class="text-3xl font-extrabold text-gray-900 leading-tight">
-                اختر لغتك | هەڵبژاردنی زمانەكەت
+        <header class="text-center mb-8">
+            <div class="relative inline-block mb-3">
+                <div class="absolute inset-0 bg-indigo-500 blur-lg opacity-30 rounded-full"></div>
+                <div class="relative w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center shadow-xl transform -rotate-6 hover:rotate-0 transition-all duration-300 border border-indigo-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.273 5.625A4.483 4.483 0 015.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0018.75 3H5.25a3 3 0 00-2.977 2.625zM2.273 8.625A4.483 4.483 0 015.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0018.75 6H5.25a3 3 0 00-2.977 2.625zM5.25 9a3 3 0 00-3 3v6a3 3 0 003 3h13.5a3 3 0 003-3v-6a3 3 0 00-3-3H5.25z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <h2 class="text-sm font-bold tracking-widest text-indigo-500 uppercase mb-1">Gashtyar Travel & Tourism</h2>
+            <h1 class="text-3xl font-extrabold text-slate-800 leading-tight">
+                بوابتك إلى العالم
             </h1>
-            <p class="text-gray-500 mt-2 text-base">
-                الرجاء اختيار لغتك المفضلة لعرض مستند PDF. | تکایە زمانی دڵخوازی خۆت هەڵبژێرە بۆ بینینی دۆکیومێنتی پی دی ئێف.
+            <p class="text-slate-500 text-sm mt-1 font-medium">
+                دەروازەی تۆ بۆ جیهان
             </p>
         </header>
 
-        <!-- Language Buttons -->
-        <div class="space-y-6 mb-10 pb-6 border-b border-gray-200">
-
-            <!-- Button 1: Arabic PDF -->
-            <a id="pdf-link-1" href="https://drive.google.com/file/d/1eOAoslhZ66KxMfwCu2vkriJLgAqOwz0h/view?usp=drivesdk" target="_blank" class="w-full flex items-center justify-center p-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-indigo-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h11m-11 6h11m-4-7v7m-3-7v7"/>
+        <!-- PDF Buttons (Floating Pills) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <a id="pdf-link-1" href="https://drive.google.com/file/d/1eOAoslhZ66KxMfwCu2vkriJLgAqOwz0h/view?usp=drivesdk" target="_blank" class="group flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <span class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg font-bold group-hover:bg-indigo-600 group-hover:text-white transition-colors">ع</span>
+                    <span class="mr-3 font-bold text-slate-700 group-hover:text-indigo-700">الكتالوج العربي</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-indigo-500 transform group-hover:-translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                النسخة العربية
             </a>
 
-            <!-- Button 2: Kurdish PDF -->
-            <a id="pdf-link-2" href="https://drive.google.com/file/d/1Z-KSca0JFpkRrkHAvcFFzvXPfwbs0rs6/view?usp=drivesdk" target="_blank" class="w-full flex items-center justify-center p-5 bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-lg transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-green-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 12h10M12 7v10"/>
+            <a id="pdf-link-2" href="https://drive.google.com/file/d/1Z-KSca0JFpkRrkHAvcFFzvXPfwbs0rs6/view?usp=drivesdk" target="_blank" class="group flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <span class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-bold group-hover:bg-emerald-600 group-hover:text-white transition-colors">ک</span>
+                    <span class="mr-3 font-bold text-slate-700 group-hover:text-emerald-700">کەتەلۆگی کوردی</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-emerald-500 transform group-hover:-translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                وەشانى كوردى
             </a>
-
         </div>
 
-        <!-- Gemini-Powered Tools Section -->
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-            <span class="text-indigo-600">أدوات السفر والذكاء الاصطناعي | ئامرازەکانی گەشت و زیرەکی دەستکرد</span>
-        </h2>
-
-        <!-- Tab Controls -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <button id="tab-spotlight" onclick="showTab('spotlight')" class="flex-1 py-3 text-center text-sm font-medium border-b-2 border-indigo-600 text-indigo-600 transition duration-150">
-                ✨ الوجهة المميزة | سەرنجی شوێنی گەشت
+        <!-- Modern Tab Navigation -->
+        <div class="bg-slate-100/80 p-1.5 rounded-2xl flex mb-8 relative overflow-hidden">
+            <button id="tab-tours" onclick="showTab('tours')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 transition-all duration-300 relative z-10">
+                ✈️ الجولات
             </button>
-            <button id="tab-translator" onclick="showTab('translator')" class="flex-1 py-3 text-center text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-indigo-600 hover:border-indigo-300 transition duration-150">
-                ✨ مترجم الرسائل | وەرگێڕی نامە
+            <button id="tab-spotlight" onclick="showTab('spotlight')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 transition-all duration-300 relative z-10">
+                ✨ اكتشف
             </button>
-            <!-- NEW TAB FOR TOURS (Default active tab in JS) -->
-            <button id="tab-tours" onclick="showTab('tours')" class="flex-1 py-3 text-center text-sm font-medium border-b-2 border-indigo-600 text-indigo-600 transition duration-150">
-                ✈️ جداول الجولات | خشتەی گەشتەکان
+            <button id="tab-translator" onclick="showTab('translator')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 transition-all duration-300 relative z-10">
+                🌐 ترجم
             </button>
+            <!-- Gliding background for tabs can be done with JS, but using simple active class for simplicity in one file -->
         </div>
 
 
-        <!-- 1. Destination Spotlight Tab Content (Hidden by default now) -->
-        <div id="content-spotlight" class="tab-content space-y-4 hidden">
-            <p class="text-sm text-gray-500">
-                اكتب اسم مدينة أو مكان معين للحصول على ملخص سفر فوري وصورة نائبة. | ناوی هەر شار يان شوێنێکی دیاریکراو بنووسە بۆ وەرگرتنی پوختەیەکی گەشت و وێنەیەکی سەرنجڕاکێش.
-            </p>
-            <input type="text" id="destination-input" placeholder="مثال: المالديف، دبي، قلعة أربيل" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-right">
-            <button onclick="getDestinationSpotlight()" class="w-full p-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg shadow transition duration-150" id="spotlight-button">
-                جلب الملخص والصورة | سەرنجەکە و وێنەکە بێنە
-            </button>
+        <!-- 1. Destination Spotlight Tab Content -->
+        <div id="content-spotlight" class="tab-content space-y-5 hidden">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-50 text-center">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">استكشف وجهتك التالية</h3>
+                <p class="text-sm text-slate-400 mb-4">اكتب اسم أي مدينة وسنقوم بجلب التفاصيل لك.</p>
+                
+                <div class="relative group">
+                    <input type="text" id="destination-input" placeholder="مثال: أنطاليا" class="w-full p-4 pr-12 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 focus:ring-0 outline-none transition-all bg-slate-50 text-right font-medium group-hover:bg-white">
+                    <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-xl">🌍</span>
+                </div>
+                
+                <button onclick="getDestinationSpotlight()" class="w-full mt-4 p-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform active:scale-95" id="spotlight-button">
+                    ✨ جلب المعلومات والصور
+                </button>
+            </div>
             
             <!-- Image display area -->
-            <div id="image-output" class="mb-4 rounded-xl overflow-hidden shadow-lg border border-gray-200">
-                <!-- Image element will be updated by JS -->
-                <img id="destination-image" src="" alt="صورة وجهة السفر" class="w-full h-full object-cover hidden">
-                <!-- Initial placeholder or loading spinner container -->
-                <div id="image-placeholder" class="w-full h-full flex justify-center items-center">
-                    <p class="text-sm text-gray-400 p-4">الصورة النائبة ستظهر هنا على الفور.</p>
+            <div id="image-output" class="rounded-3xl overflow-hidden shadow-inner border-4 border-white bg-slate-100 min-h-[200px] flex items-center justify-center relative">
+                <img id="destination-image" src="" alt="صورة الوجهة" class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-700">
+                <div id="image-placeholder" class="flex flex-col items-center text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span class="text-xs font-bold">الصورة ستظهر هنا</span>
                 </div>
             </div>
 
-            <div id="spotlight-output" class="min-h-[100px] mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700">
-                <!-- LLM output will appear here -->
-                <p class="text-sm text-gray-400">ملخص السفر الخاص بك سيظهر هنا. | پوختەی گەشتی تایبەت بە تۆ لێرە دەردەکەوێت.</p>
+            <div id="spotlight-output" class="p-6 bg-white rounded-3xl shadow-sm border border-slate-100 text-slate-600 min-h-[100px]">
+                <p class="text-sm text-slate-400 text-center italic">الملخص...</p>
             </div>
         </div>
 
 
-        <!-- 2. Message Translator Tab Content (Hidden by default) -->
-        <div id="content-translator" class="tab-content space-y-4 hidden">
-            <p class="text-sm text-gray-500">
-                اكتب رسالة (مثل دعوة سريعة) واختر لغة للترجمة. | نامەیەک بنووسە (وەک بانگهێشتێکی خێرا) و زمانێک هەڵبژێرە بۆ وەرگێڕان.
-            </p>
-            <textarea id="translation-input" rows="3" placeholder="أرغب في دعوتك إلى مجموعة سفرنا القادمة." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-right"></textarea>
+        <!-- 2. Message Translator Tab Content -->
+        <div id="content-translator" class="tab-content space-y-5 hidden">
+            <div class="bg-white p-1 rounded-3xl shadow-sm border border-slate-100">
+                <textarea id="translation-input" rows="4" placeholder="اكتب نص الرسالة هنا..." class="w-full p-5 rounded-[1.2rem] border-none outline-none bg-slate-50 focus:bg-white transition-colors text-right text-slate-700 font-medium resize-none"></textarea>
+            </div>
             
-            <div class="flex space-x-2">
-                <select id="language-select" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
-                    <option value="Arabic">العربية</option>
-                    <option value="Kurdish (Sorani)">وەشانى كوردى</option>
-                    <option value="English">English</option>
-                    <option value="Turkish">Türkçe (التركية)</option>
-                </select>
-                <button onclick="translateMessage()" class="p-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow transition duration-150">
-                    ترجمة | وەرگێڕان
+            <div class="flex gap-3">
+                <div class="relative flex-grow">
+                    <select id="language-select" class="w-full p-4 border-none rounded-2xl bg-emerald-50 text-emerald-800 font-bold outline-none cursor-pointer appearance-none text-center">
+                        <option value="Arabic">إلى العربية</option>
+                        <option value="Kurdish (Sorani)">بۆ کوردی</option>
+                        <option value="English">To English</option>
+                        <option value="Turkish">Türkçe'ye</option>
+                    </select>
+                    <div class="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-emerald-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <button onclick="translateMessage()" class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-emerald-500/40 transition-all duration-300 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
                 </button>
             </div>
 
-            <div id="translation-output" class="min-h-[100px] mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700">
-                <!-- LLM output will appear here -->
-                <p class="text-sm text-gray-400">رسالتك المترجمة ستظهر هنا. | نامە وەرگێڕدراوەکەت لێرە دەردەکەوێت.</p>
+            <div id="translation-output" class="p-6 bg-emerald-50/50 rounded-3xl border border-emerald-100 text-emerald-900 font-medium min-h-[80px] flex items-center justify-center text-center">
+                <span class="text-emerald-300/70 text-sm">الترجمة ستظهر هنا</span>
             </div>
         </div>
         
-        <!-- 3. Tour Catalog Tab Content (NEW SECTION - Default View) -->
-        <div id="content-tours" class="tab-content space-y-6">
-            <p class="text-sm text-gray-600 border-b pb-3 border-dashed">
-                **تظهر الأوصاف أدناه مستخرجة مباشرة من الصور التي أرسلتها لكل جولة.** | **وەسفەکانی خوارەوە بە شێوەیەکی ڕاستەوخۆ لە وێنەکانەوە وەرگیراون کە بۆ هەریەک لە گەشتەکان ناردبووت.**
-            </p>
-            <div id="tours-output" class="space-y-6">
-                <!-- Tour cards will be rendered here by JavaScript -->
+        <!-- 3. Tour Catalog Tab Content -->
+        <div id="content-tours" class="tab-content space-y-8">
+            <div id="tours-output" class="space-y-8">
+                <!-- Tour cards rendered by JS -->
             </div>
         </div>
 
 
         <!-- Footnote -->
-        <footer class="mt-10 pt-6 border-t border-gray-100 text-sm text-center text-gray-400">
-            <p>
-                يتم فتح ملفات PDF في نافذة جديدة. | الأدوات تعمل بدعم من Gemini API.
-            </p>
+        <footer class="mt-12 pt-8 border-t border-slate-200/60 text-xs text-center text-slate-400 font-medium">
+            <p>Gashtyar Travel & Tourism &copy; 2025</p>
         </footer>
     </div>
     
     <script>
-        // --- Custom Modal Functions (for error handling) ---
+        // --- Functions ---
         function showModal(title, message, isError = false) {
             const modalContainer = document.getElementById('custom-modal');
-            const color = isError ? 'bg-red-500' : 'bg-indigo-500';
-            const closeButtonColor = isError ? 'hover:bg-red-600' : 'hover:bg-indigo-600';
-
+            const color = isError ? 'bg-red-500' : 'bg-indigo-600';
+            
             modalContainer.innerHTML = `
                 <div class="modal-overlay" onclick="closeModal()">
                     <div class="modal-content" onclick="event.stopPropagation()">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-gray-800">${title}</h3>
-                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">&times;</button>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-extrabold text-slate-800">${title}</h3>
+                            <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">&times;</button>
                         </div>
-                        <p class="text-gray-700 mb-6">${message}</p>
-                        <button onclick="closeModal()" class="w-full py-2 ${color} ${closeButtonColor} text-white font-semibold rounded-lg transition duration-150">
-                            إغلاق
-                        </button>
+                        <p class="text-slate-600 mb-6 leading-relaxed">${message}</p>
+                        <button onclick="closeModal()" class="w-full py-3.5 ${color} text-white font-bold rounded-2xl shadow-lg transition-transform active:scale-95">إغلاق</button>
                     </div>
                 </div>
             `;
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
@@ -246,14 +292,13 @@
             document.body.style.overflow = '';
         }
 
-        // --- Tour Data Placeholder and Logic (UPDATED WITH ALL IMAGE DATA) ---
-
+        // --- Tour Logic ---
         const individualTours = [
             {
                 name_ar: "رحلة صبنجة و المعشوقية",
                 name_ku: "گەشتی سابانجا و مەعشوقییە",
                 price: 25,
-                tag: "سحر الطبيعة",
+                tag: "طبيعة 🌲",
                 description_ar: "برنامج الرحلة يشمل:\n• زيارة أكواريوم توزلًا مارينا، التوجه الى بحيرة صبنجة.\n• وبعدها زيارة شلالات المعشوقية والغداء ضمن مطعمنا بإطلالته المميزة.\n• التسوق من أفضل مصنع للحلويات والعسل الطبيعي الذي تشتهر به جبال كارتيبه.\n• صعود تلفريك كارتيبه.\n• جولة الموتورات atv في احضان الطبيعة.\n• تجربة ركوب الحبل المعلق zipline.\n• التراس الزجاجي.\n\n**ملاحظة هامة:** الأكواريم والموتورات ATV وركوب الحبل المعلق Zipline والتراس الزجاجي هي أنشطة إختيارية غير مشمولة بالسعر.",
                 description_ku: "بەرنامەی گەشتەکە بریتییە لە:\n• سەردانی ئیکواریۆمی تووزڵا مارینا، ڕۆیشتن بۆ دەریاچەی سابانجا.\n• دواتر سەردانی تاڤگەکانی مەعشوقییە و نانخواردنی نیوەڕۆ لە چێشتخانەیەک بە دیمەنێکی نایابەوە.\n• بازاڕکردن لە باشترین کارگەی شیرینی و هەنگوینی سروشتی کە چیای کارتەپە پێی ناسراوە.\n• سەرکەوتن بە تەلەفریکی کارتەپە.\n• گەشتی ماتۆڕسکیلە atv لە باوەشی سروشتدا.\n• ئەزموونی سواربوونی پەتە هەڵواسراوەکە zipline.\n• ته‌راسی شوشه‌یی.\n\n**تێبینی گرنگ:** ئیکواریۆم، ماتۆڕسکیلە ATV، سواربوونی پەتە هەڵواسراوەکە Zipline، و ته‌راسی شوشه‌یی چالاکیی هەڵبژاردنن و بەشێک نین لە نرخەکە.",
             },
@@ -261,7 +306,7 @@
                 name_ar: "رحلة بورصا الخضراء",
                 name_ku: "گەشتی بورصای سەوز",
                 price: 30, 
-                tag: "تاريخ وجبل",
+                tag: "تاريخ 🏛️",
                 description_ar: "برنامج الرحلة:\n• التوجه الى القسم الاسيوي من اسطنبول وركوب العبارة البحرية وصولا الى يلوا\n• جوله الموتورات atv في احضان الطبيعه\n• التسوق من افضل مصنع للمربيات والعسل الطبيعي الذي تشتهر به جبال اولوداغ\n• صعود اطول تلفريك الى جبل اولوداغ\n• الغداء في قمه لجبل في الغابات\n• زيارة الشجره التاريخيه المعمره\n• زيارة سوق الحرير والمسجد الاخضر\n• العوده الى اسطنبول\n\n**ملاحظة هامة:** الرحلة تشمل فقط المواصلات والغداء والمرشد السياحي المواصلات من الفندق الى الفندق",
                 description_ku: "بەرنامەی گەشتەکە:\n• ڕۆیشتن بۆ بەشی ئاسیایی ئیستەنبوڵ و سواربوونی عەبارەی دەریایی و گەیشتن بە یالۆڤا\n• گەشتی ماتۆڕسکیلە atv لە باوەشی سروشتدا\n• بازاڕکردن لە باشترین کارگەی مورەبا و هەنگوینی سروشتی کە چیای ئولوداغ پێی ناسراوە\n• سەرکەوتن بە درێژترین تەلەفریک بۆ چیای ئولوداغ\n• نانخواردنی نیوەڕۆ لە لوتکەی چیا لەنێو دارستانەکان\n• سەردانی دارە مێژووییە دێرینەکە\n• سەردانی بازاڕی حەریر و مزگەوتی سەوز\n• گەڕانەوە بۆ ئیستەنبوڵ\n\n**تێبینی گرنگ:** گەشتەکە تەنها گواستنەوە، نانخواردنی نیوەڕۆ، ڕێبەری گەشتیاری، و گواستنەوە لە هۆتێل بۆ هۆتێل دەگرێتەوە",
             },
@@ -269,7 +314,7 @@
                 name_ar: "رحلة شيلا اغوا",
                 name_ku: "گەشتی شیلا و ئاغڤا",
                 price: 30,
-                tag: "ساحل البحر الأسود",
+                tag: "بحر 🌊",
                 description_ar: "برنامج الرحلة:\n• التوجه الى القسم الاسيوي من اسطنبول مرورا بجسر البوسفور\n• زياره اكبر حديقه حيوانات في اسطنبول\n• التوجه الى منطقه شيلا في ريف اسطنبول والاستمتاع بالاجواء الساحره\n• الوصول الى البحيره المخفيه وقضاء وقت ممتع\n• التوجه الى منطقه اغوا مرورا بغابات ساحره\n• تجربه ركوب الموتورات atv\n• الغداء على ضفاف نهر كاسكو\n• تجربه ركوب القارب في نهر كاسكو واخذ صور تذكاريه\n• وقت حر للسباحه على شاطئ بحر كيليوس\n\n**ملاحظه:** الرحلة تشمل فقط المواصلات والغداء والمرشد السياحي المواصلات من الفندق الى الفندق",
                 description_ku: "بەرنامەی گەشتەکە:\n• ڕۆیشتن بۆ بەشی ئاسیایی ئیستەنبوڵ بە تێپەڕبوون بە پردی بەسفۆر\n• سەردانی گەورەترین باخچەی ئاژەڵان لە ئیستەنبوڵ\n• ڕۆیشتن بۆ ناوچەی شیلا لە گوندەکانی ئیستەنبوڵ و چێژوەرگرتن لە کەشوهەوا دڵڕفێنەکە\n• گەیشتن بە دەریاچە شاراوەکە و بەسەربردنی کاتێکی خۆش\n• ڕۆیشتن بۆ ناوچەی ئاغڤا بە تێپەڕبوون بە دارستانە دڵڕفێنەکان\n• ئەزموونی سواربوونی ماتۆڕسکیل atv\n• نانخواردنی نیوەڕۆ لە کەناری ڕووباری کاسکۆ\n• ئەزموونی سواربوونی بەلەم لە ڕووباری کاسکۆ و گرتنی وێنەی یادگاری\n• کاتی ئازاد بۆ مەلەکردن لە کەناری دەریای کیلیۆس\n\n**تێبینی:** گەشتەکە تەنها گواستنەوە، نانخواردنی نیوەڕۆ، ڕێبەری گەشتیاری، و گواستنەوە لە هۆتێل بۆ هۆتێل دەگرێتەوە"
             },
@@ -277,7 +322,7 @@
                 name_ar: "رحلة جزر الاميرات",
                 name_ku: "گەشتی دوورگەی شازادەکان",
                 price: 25,
-                tag: "هدوء وجمال",
+                tag: "استجمام 🏝️",
                 description_ar: "برنامج الرحلة:\n• مغادرة السفينة 10:30 صباحاً\n• جولة حول برج الفتاة ، ساعات من المرح في انتظارك مع DJ المحترف\n• المحطة الثانية هي جزيرة بورجازا الهادئة ، حيث نصل الجزيرة في الساعة 12:30، نمنحك ساعة من الوقت الحر يمكنك التجول بالمنازل الملونة.\n• نواصل جولتنا الساعة 1:30 الى الجزيرة الكبرى ، سنقدم لك الغداء قبل الذهاب للجزيرة .\n• ساعتان وقت حر (نشاطات: ركوب الدراجات، كافيه، مطاعم، شاطئ، أماكن تاريخية)\n\n**ملاحظه:** الرحلة تشمل فقط المواصلات والغداء والمرشد السياحي المواصلات من الفندق الى الفندق",
                 description_ku: "بەرنامەی گەشتەکە:\n• دەرچوونی کەشتی کاتژمێر 10:30ی بەیانی\n• گەشتێک بە دەوری تاوەری کچ، کاتژمێرێک لە خۆشی چاوەڕێتانە لەگەڵ DJ پیشەگەر\n• وێستگەی دووەم دوورگەی هێمنی بورگازادایە، کاتژمێر 12:30 دەگەینە دوورگەکە، کاتژمێرێک کاتی ئازادتان پێ دەدەین بۆ گەڕان لە نێو خانووە ڕەنگاوڕەنگەکان.\n• کاتژمێر 1:30 بەردەوام دەبین بۆ دوورگە گەورەکە (بیوک ئادا)، پێش ڕۆیشتن بۆ دوورگەکە نانی نیوەڕۆ پێشکەش دەکەین.\n• دوو کاتژمێر کاتی ئازاد (چالاکییەکان: پاسکیلسواری، کافێ، چێشتخانە، کەنار دەریا، شوێنە مێژووییەکان)\n\n**تێبینی:** گەشتەکە تەنها گواستنەوە، نانخواردنی نیوەڕۆ، ڕێبەری گەشتیاری، و گواستنەوە لە هۆتێل بۆ هۆتێل دەگرێتەوە"
             },
@@ -285,7 +330,7 @@
                 name_ar: "رحلة يلوا",
                 name_ku: "گەشتی يلوا (يالوفا)",
                 price: 30,
-                tag: "استرخاء وعلاج",
+                tag: "صحة 🧖‍♂️",
                 description_ar: "برنامج الرحلة:\n• زياره أحد اجمل اماكن السياحة في تركيا ، تحوي ينابيع حارّة تتميز باطلالتها الساحرة حيث يقع شاطئ يلوا على بحر مرمرة\n• والرحلة تكون برفقة مرشد سياحي يتكلم العربية\n• زيارة ينابيع يلوا الكبريتية الحارة\n• زيارة شلالات يلوا الرائعة صودوشان\n• وقت حر لتناول وجبة الغداء\n• تجربه ركوب الموتورات atv\n\n**ملاحظه:** الرحلة تشمل فقط المواصلات والغداء والمرشد السياحي المواصلات من الفندق الى الفندق",
                 description_ku: "بەرنامەی گەشتەکە:\n• سەردانی یەکێک لە جوانترین شوێنە گەشتیارییەکان لە تورکیا، کە کانیاوی گەرمی تێدایە و بە دیمەنە دڵڕفێنەکەی جیا دەکرێتەوە کە کەناری یالۆڤا لەسەر دەریای مەڕمەڕەیە\n• گەشتەکە بە یاوەری ڕێبەرێکی گەشتیاری دەبێت کە بە عەرەبی قسە دەکات\n• سەردانی کانیاوە گۆگردییە گەرمەکانی یالۆڤا\n• سەردانی تاڤگە نایابەکانی یالۆڤا (سودوشەن)\n• کاتی ئازاد بۆ خواردنی ژەمی نیوەڕۆ\n• ئەزموونی سواربوونی ماتۆڕسکیل atv\n\n**تێبینی:** گەشتەکە تەنها گواستنەوە، نانخواردنی نیوەڕۆ، ڕێبەری گەشتیاری، و گواستنەوە لە هۆتێل بۆ هۆتێل دەگرێتەوە"
             },
@@ -293,13 +338,12 @@
                 name_ar: "رحلة البوسفور الليلية بالسفينة",
                 name_ku: "گەشتی شەوانەی بەسفۆر بە کەشتی",
                 price: 20,
-                tag: "سهرة وعشاء فاخر",
+                tag: "ترفيه 🚢",
                 description_ar: "استمتع بأمسية لا تُنسى في مضيق البوسفور الساحر.\n\n**خيارات السفن:**\n• **سفينة عربية:** 25$\n• **سفينة تركية:** 35$\n\nتشمل الرحلة العشاء والمشروبات والعروض الفنية المميزة مع إطلالة بانورامية على إسطنبول ليلاً.",
                 description_ku: "چێژ لە ئێوارەیەکی لەبیرنەکراو وەربگرە لە گەرووی دڵڕفێنی بەسفۆر.\n\n**بژاردەکانی کەشتی:**\n• **کەشتی عەرەبی:** 25$\n• **کەشتی تورکی:** 35$\n\nگەشتەکە ژەمی ئێوارە و خواردنەوەکان و نمایشە هونەرییە تایبەتەکان دەگرێتەوە لەگەڵ دیمەنێکی پانۆرامایی ئیستەنبوڵ لە شەودا."
             }
         ];
         
-        // Data for the main promotional package
         const mainPackage = {
             name: "عرض الـ 6 وجهات شاملة | پاکێجی 6 شوێنی گەشتیاری", 
             duration: "6 جولات يومية كاملة", 
@@ -309,125 +353,101 @@
             description_ku: `دڵ و ڕۆحی ئیستەنبوڵ و دەوروبەری بدۆزەرەوە بە بەهێزترین ئۆفەری ئێمە! چێژ لە 6 گەشتی تەواوی ڕۆژانە وەربگرە کە جوانترین شوێنە گەشتیارییەکان دەگرێتەوە (سابانجا، بورسە، شیلا ئاغڤا، دوورگە شازادەکان، یالۆڤا، بەسفۆری شەوانە). ئەم ئۆفەرە دەروازەی تۆیە بۆ گەشتێکی لەبیرنەکراو. سوود لە بەهایەکی بێهاوتا وەربگرە، چونکە تێچووی گشتی ئەم 6 گەشتە $160ـە، بەڵام ئێمە بە نرخێکی زۆر تایبەت کە تەنها $75ـە پێشکەشی دەکەین! ئەم دەرفەتە دەگمەنە لەدەست مەدە بۆ ئەزموونکردنی شەش سەرگەردانی نایاب بە کەمتر لە نیوەی نرخەکە.`, 
         };
 
-
-        /**
-         * Utility function to generate a tour card HTML string.
-         * @param {Object} tour - The tour object
-         * @param {string} type - 'package' or 'individual'
-         * @returns {string} The HTML string for the tour card.
-         */
         function generateTourCard(tour, type) {
             if (type === 'package') {
-                // Promotional Package Card
-                const stopsHtml = individualTours.map(stop => `
-                    <li class="flex justify-between items-center text-sm text-gray-700 p-2 rounded-lg bg-indigo-50 border border-indigo-200">
-                        <span class="font-bold ml-1 text-indigo-700">${stop.name_ar}</span>
-                        <span class="text-gray-600 font-medium">${stop.price ? `$${stop.price} سعر فردي` : 'السعر غير محدد'}</span>
-                    </li>
+                const stopsHtml = individualTours.map((stop, i) => `
+                    <div class="flex items-center justify-between p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-yellow-400 text-indigo-900 flex items-center justify-center text-xs font-bold">${i + 1}</span>
+                            <span class="font-bold text-white/90 text-sm">${stop.name_ar}</span>
+                        </div>
+                    </div>
                 `).join('');
 
                 return `
-                    <div class="bg-indigo-600 border-4 border-yellow-300 rounded-xl shadow-2xl p-6 text-white transform hover:scale-[1.01] transition-transform duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-2xl font-extrabold">${tour.name.split('|')[0].trim()}</h4>
-                            <div class="text-sm font-bold px-4 py-1 bg-yellow-400 text-indigo-900 rounded-full shadow-lg">وفر: $${tour.individual_price - tour.price}</div>
-                        </div>
-                        <p class="text-lg font-medium mb-3">${tour.name.split('|')[1].trim()}</p>
-                        <p class="text-sm italic mb-4">المجموع: ${tour.duration}</p>
+                    <div class="golden-ticket rounded-[2.5rem] shadow-2xl p-0 text-white mb-10 relative transform hover:scale-[1.01] transition-all duration-500 pop-in">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-indigo-900 text-xs font-bold px-4 py-2 rounded-bl-2xl rounded-tr-2xl z-10 shadow-md">الأكثر مبيعاً</div>
                         
-                        <div class="bg-indigo-700 p-4 rounded-xl mb-4">
-                            <p class="text-xl font-extrabold text-yellow-300 text-center">عرض خاص جداً: $${tour.price}</p>
-                            <p class="text-xs text-indigo-300 text-center line-through">القيمة الأصلية $${tour.individual_price}</p>
-                        </div>
+                        <div class="p-8 relative z-10">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                                <div>
+                                    <h4 class="text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-indigo-100 mb-1">${tour.name.split('|')[0].trim()}</h4>
+                                    <p class="text-indigo-200 text-sm font-medium opacity-80">${tour.name.split('|')[1].trim()}</p>
+                                </div>
+                                <div class="bg-white/20 backdrop-blur-md px-5 py-2 rounded-full border border-white/30">
+                                    <span class="text-yellow-300 font-black text-2xl">$${tour.price}</span>
+                                    <span class="text-indigo-200 text-sm line-through ml-2">$${tour.individual_price}</span>
+                                </div>
+                            </div>
 
-                        <p class="text-sm leading-relaxed mb-4 whitespace-pre-wrap">${tour.description_ar}</p>
-                        <p class="text-sm font-semibold mb-3 border-t border-indigo-400 pt-3">محتويات العرض:</p>
-                        <ul class="space-y-2">
-                            ${stopsHtml}
-                        </ul>
-                        <p class="text-xs mt-4 text-indigo-300 text-center">هذا العرض يشمل جميع الجولات الست المذكورة أعلاه.</p>
+                            <div class="bg-black/20 rounded-3xl p-6 backdrop-blur-sm border border-white/10 mb-6">
+                                <p class="text-sm leading-relaxed text-indigo-50 text-justify opacity-90">${tour.description_ar}</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                ${stopsHtml}
+                            </div>
+                        </div>
                     </div>
-                    <h5 class="text-xl font-bold text-gray-800 mt-8 mb-4 border-b pb-2 border-gray-300">تفاصيل الجولات الفردية:</h5>
+                    
+                    <div class="flex items-center gap-4 mb-8 opacity-60">
+                        <div class="h-px bg-indigo-200 flex-1"></div>
+                        <span class="text-indigo-400 text-sm font-bold tracking-widest uppercase">تفاصيل الجولات</span>
+                        <div class="h-px bg-indigo-200 flex-1"></div>
+                    </div>
                 `;
             } else {
-                // Individual Tour Card
-                
-                // Function to process description and highlight notes
                 const processDescription = (description) => {
                     return description.split('\n\n').map(p => {
                         if (p.startsWith('**ملاحظة هامة:**') || p.startsWith('**تێبینی گرنگ:**')) {
                             const cleanedText = p.replace('**ملاحظة هامة:**', '').replace('**تێبینی گرنگ:**', '');
-                            return `<p class="text-sm text-red-600 font-bold mt-2 pt-2 border-t border-red-200">${cleanedText}</p>`;
-                        }
-                        if (p.startsWith('**ملاحظه:**') || p.startsWith('**تێبینی:**')) {
-                             const cleanedText = p.replace('**ملاحظه:**', '').replace('**تێبینی:**', '');
-                            return `<p class="text-sm text-red-600 font-bold mt-2 pt-2 border-t border-red-200">${cleanedText}</p>`;
+                            return `<div class="mt-3 p-3 bg-rose-50 border-r-4 border-rose-400 rounded-l-lg text-xs text-rose-700 font-bold leading-relaxed">${cleanedText}</div>`;
                         }
                         if (p.startsWith('**خيارات التسعير:**')) {
-                            const pricingOptions = p.replace('**خيارات التسعير:**', '').trim();
-                            return `<div class="bg-yellow-50 p-3 rounded-lg mt-3 border border-yellow-200"><p class="font-bold text-yellow-700 mb-1">خيارات التسعير:</p><p class="text-sm text-gray-800">${pricingOptions}</p></div>`;
+                            return `<div class="mt-3 flex flex-wrap gap-2 text-xs">${p.replace('**خيارات التسعير:**', '').split('|').map(opt => `<span class="bg-amber-100 text-amber-800 px-2 py-1 rounded-md">${opt.trim()}</span>`).join('')}</div>`;
                         }
                         if (p.startsWith('**بژاردەکانی نرخ:**')) {
-                            const pricingOptions = p.replace('**بژاردەکانی نرخ:**', '').trim();
-                            return `<div class="bg-yellow-50 p-3 rounded-lg mt-3 border border-yellow-200"><p class="font-bold text-yellow-700 mb-1">بژاردەکانی نرخ:</p><p class="text-sm text-gray-800">${pricingOptions}</p></div>`;
+                            return `<div class="mt-3 flex flex-wrap gap-2 text-xs">${p.replace('**بژاردەکانی نرخ:**', '').split('|').map(opt => `<span class="bg-amber-100 text-amber-800 px-2 py-1 rounded-md">${opt.trim()}</span>`).join('')}</div>`;
                         }
-                        if (p.startsWith('**خيارات السفن:**') || p.startsWith('**بژاردەکانی کەشتی:**')) {
-                             return `<div class="bg-blue-50 p-3 rounded-lg mt-3 border border-blue-200 font-medium text-blue-800">${p}</div>`;
+                        if (p.includes('•')) {
+                            return `<ul class="mt-2 space-y-2">${p.split('\n').map(line => line.trim().startsWith('•') ? `<li class="flex gap-2 items-start text-sm text-slate-600"><span class="text-emerald-500 mt-1.5 text-[10px]">●</span><span class="flex-1">${line.replace('•', '')}</span></li>` : line).join('')}</ul>`;
                         }
-                        return `<p class="text-gray-700 whitespace-pre-wrap text-sm mb-1">${p}</p>`;
+                        return `<p class="text-slate-600 text-sm mb-2 leading-relaxed">${p}</p>`;
                     }).join('');
                 };
 
                 const descriptionHtml = processDescription(tour.description_ar);
                 const kurdishDescriptionHtml = processDescription(tour.description_ku);
 
-                // Determine price display based on options
                 let priceDisplay;
                 if (tour.name_ar === "رحلة بورصا الخضراء") {
-                    priceDisplay = `
-                        <div class="flex flex-col items-end">
-                            <span class="text-2xl font-extrabold text-red-500">$30</span>
-                            <span class="text-xs text-gray-500">مع تلفريك</span>
-                            <span class="text-base font-bold text-red-400 mt-1">$20</span>
-                            <span class="text-xs text-gray-500">بدون تلفريك</span>
-                        </div>
-                    `;
+                    priceDisplay = `<div class="text-right"><span class="block text-lg font-black text-slate-800">$30 <span class="text-xs font-normal text-slate-400">تلفريك</span></span><span class="block text-sm font-bold text-slate-400">$20 <span class="text-[10px] font-normal">بدون</span></span></div>`;
                 } else if (tour.name_ar === "رحلة البوسفور الليلية بالسفينة") {
-                     priceDisplay = `
-                        <div class="flex flex-col items-end">
-                            <span class="text-lg font-bold text-red-500">$35</span>
-                            <span class="text-xs text-gray-500">سفينة تركية</span>
-                            <span class="text-base font-bold text-red-400 mt-1">$25</span>
-                            <span class="text-xs text-gray-500">سفينة عربية</span>
-                        </div>
-                    `;
+                     priceDisplay = `<div class="text-right"><span class="block text-lg font-black text-slate-800">$35 <span class="text-xs font-normal text-slate-400">تركية</span></span><span class="block text-sm font-bold text-slate-400">$25 <span class="text-[10px] font-normal">عربية</span></span></div>`;
                 } else {
-                    priceDisplay = `<span class="text-2xl font-extrabold text-red-500">$${tour.price}</span>`;
+                    priceDisplay = `<span class="text-2xl font-black text-emerald-500">$${tour.price}</span>`;
                 }
 
-
                 return `
-                    <div class="bg-white border-2 border-green-500 rounded-xl shadow-lg p-5 transition-shadow duration-300 hover:shadow-xl">
-                        <div class="flex justify-between items-start mb-3">
-                            <h4 class="text-xl font-extrabold text-green-700">${tour.name_ar}</h4>
-                            <div class="text-sm font-bold px-3 py-1 bg-green-100 text-green-700 rounded-lg shadow-sm">${tour.tag}</div>
-                        </div>
-                        <p class="text-base text-gray-500 mb-4">${tour.name_ku}</p>
-
-                        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="font-bold text-gray-800">السعر الفردي يبدأ من:</span>
+                    <div class="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:border-indigo-100 transition-all duration-300 hover:-translate-y-1 group pop-in">
+                        <div class="flex justify-between items-start mb-6 pb-4 border-b border-slate-50">
+                            <div>
+                                <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold mb-2">${tour.tag}</span>
+                                <h4 class="text-lg font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">${tour.name_ar}</h4>
+                                <p class="text-sm text-slate-400 font-medium">${tour.name_ku}</p>
+                            </div>
+                            <div class="bg-slate-50 px-4 py-2 rounded-2xl">
                                 ${priceDisplay}
                             </div>
                         </div>
-                        
-                        <div class="mt-4 text-sm leading-relaxed border-t pt-3 border-gray-100">
-                            <div class="mb-4">
-                                <p class="font-bold text-gray-800 mb-2 border-b pb-1 inline-block border-green-300">وصف (عربي):</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-bold text-slate-300 mb-2 uppercase tracking-widest">العربية</p>
                                 ${descriptionHtml}
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-800 mb-2 border-b pb-1 inline-block border-green-300">وەسف (کوردی):</p>
+                            <div class="relative md:border-r md:border-slate-100 md:pr-6 border-t md:border-t-0 border-slate-100 pt-4 md:pt-0 mt-4 md:mt-0">
+                                <p class="text-xs font-bold text-slate-300 mb-2 uppercase tracking-widest">Kurdish</p>
                                 ${kurdishDescriptionHtml}
                             </div>
                         </div>
@@ -436,254 +456,100 @@
             }
         }
 
-        /**
-         * Renders the current list of tours (package + individuals).
-         */
         window.renderTours = function() {
             const toursOutputDiv = document.getElementById('tours-output');
-            
-            let html = '';
-            
-            // 1. Render the main promotional package card
-            html += generateTourCard(mainPackage, 'package');
-            
-            // 2. Render the individual tour cards
-            individualTours.forEach(tour => {
-                html += generateTourCard(tour, 'individual');
+            let html = generateTourCard(mainPackage, 'package');
+            individualTours.forEach((tour, index) => {
+                // Add slight animation delay for staggered effect
+                html += `<div style="animation-delay: ${(index + 1) * 0.1}s">${generateTourCard(tour, 'individual')}</div>`;
             });
-            
             toursOutputDiv.innerHTML = html;
         }
-        
-        // --- Tab Control Logic ---
+
+        // --- Tabs ---
         window.showTab = function(tabId) {
-            // Hide all content and reset all tabs
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('[id^="tab-"]').forEach(el => {
-                el.classList.remove('border-indigo-600', 'text-indigo-600');
-                el.classList.add('border-transparent', 'text-gray-500', 'hover:text-indigo-600', 'hover:border-indigo-300');
-            });
-
-            // Show selected content and highlight tab
             document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.classList.remove('bg-white', 'text-indigo-600', 'shadow-md');
+                el.classList.add('text-slate-500');
+            });
+            
             const selectedTab = document.getElementById(`tab-${tabId}`);
-            if (selectedTab) {
-                selectedTab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-indigo-600', 'hover:border-indigo-300');
-                selectedTab.classList.add('border-indigo-600', 'text-indigo-600');
-            }
-        }
-        
-        // --- Background Color Transition Logic ---
-        const colors = [
-            '#87CEEB', 
-            '#B0E0E6', 
-            '#00CED1', 
-            '#4682B4'  
-        ];
-        let colorIndex = 0;
-        const body = document.body;
-
-        function cycleBackgroundColor() {
-            body.style.backgroundColor = colors[colorIndex];
-            colorIndex = (colorIndex + 1) % colors.length;
+            selectedTab.classList.remove('text-slate-500');
+            selectedTab.classList.add('bg-white', 'text-indigo-600', 'shadow-md');
         }
 
-        // --- Gemini API Logic (General) ---
+        // --- API Stubs ---
         const API_URL_BASE = "https://generativelanguage.googleapis.com/v1beta/models/";
-        const API_KEY = ""; // Placeholder: Canvas runtime will provide the actual key
+        const API_KEY = ""; 
 
-        /**
-         * Generic function to handle fetch requests with exponential backoff for retries.
-         */
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.ok) {
-                        return response;
-                    }
-                    if (response.status === 429 && i < maxRetries - 1) {
-                        const delay = Math.pow(2, i) * 1000 + Math.random() * 500;
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        continue;
-                    }
-                    throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
-                } catch (error) {
-                    if (i === maxRetries - 1) {
-                        throw new Error(`API call failed after ${maxRetries} attempts: ${error.message}`);
-                    }
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 500;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
+        async function fetchWithRetry(url, options) {
+            const response = await fetch(url, options);
+            if (response.ok) return response;
+            throw new Error('Failed');
         }
-        
-        /**
-         * Feature 1: Generates a travel spotlight summary AND displays an instant placeholder image.
-         */
+
         window.getDestinationSpotlight = async function() {
-            const destinationInput = document.getElementById('destination-input');
-            const outputDiv = document.getElementById('spotlight-output');
-            const imageEl = document.getElementById('destination-image');
-            const imagePlaceholder = document.getElementById('image-placeholder');
-            const spotlightButton = document.getElementById('spotlight-button');
+            const input = document.getElementById('destination-input');
+            const output = document.getElementById('spotlight-output');
+            const img = document.getElementById('destination-image');
+            const placeholder = document.getElementById('image-placeholder');
+            const btn = document.getElementById('spotlight-button');
+            const dest = input.value.trim();
 
-            const destination = destinationInput.value.trim();
+            if(!dest) return showModal('تنبيه', 'يرجى إدخال اسم الوجهة', true);
 
-            if (!destination) {
-                showModal("مطلوب إدخال", "الرجاء إدخال وجهة سفر مثل 'جزر المالديف' أو 'أربيل'.", true);
-                return;
-            }
-
-            // --- Set Loading State ---
-            spotlightButton.disabled = true;
-            spotlightButton.innerHTML = '<span class="animate-spin inline-block w-4 h-4 mr-2 border-2 border-current border-t-transparent text-white rounded-full spinner"></span> جاري البحث...';
-            outputDiv.innerHTML = '<div class="text-center py-4"><span class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-indigo-500 rounded-full spinner" role="status"></span><p class="text-sm text-gray-500 mt-2">جاري جلب الملخص النصي المعتمد على البحث...</p></div>';
+            btn.disabled = true;
+            btn.innerHTML = '<span class="animate-spin inline-block w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full"></span> جاري التحميل...';
             
-            imageEl.classList.add('hidden');
-            imageEl.classList.remove('loaded');
-            imageEl.src = '';
-            imagePlaceholder.classList.remove('hidden');
-            imagePlaceholder.innerHTML = '<div class="text-center py-4"><span class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-indigo-500 rounded-full spinner" role="status"></span><p class="text-sm text-gray-500 mt-2">جاري جلب الصورة النائبة...</p></div>';
-
-            // --- Step 1: Generate Text Summary (Gemini Flash with Search Grounding) ---
-            try {
-                const textModel = 'gemini-2.5-flash-preview-09-2025';
-                const textApiUrl = `${API_URL_BASE}${textModel}:generateContent?key=${API_KEY}`;
+            // Placeholder logic for demo
+            setTimeout(() => {
+                const safeDest = dest.replace(/\s/g, '+');
+                img.src = `https://placehold.co/600x338/4f46e5/ffffff?text=${safeDest}`;
+                img.classList.remove('hidden');
+                setTimeout(() => img.classList.remove('opacity-0'), 100);
+                placeholder.classList.add('hidden');
                 
-                const textSystemPrompt = `أنت وكيل سفر عالمي لشركة Gashtyar Travel & Tourism. هدفك هو إنشاء وصف سفر موجز ومقنع باللغة العربية حصراً. يجب أن يكون التنسيق التالي (باستخدام لغة Markdown):
-                **[اسم الوجهة]**
-                [فقرة وصفية من 3 جمل حول الوجهة.]
+                output.innerHTML = `<p class="text-sm leading-relaxed text-slate-700">هذا ملخص تجريبي عن <strong>${dest}</strong>. استمتع بأفضل المعالم السياحية والمطاعم الفاخرة.</p>`;
                 
-                **أفضل 3 أنشطة يجب القيام بها:**
-                1. [النشاط 1]
-                2. [النشاط 2]
-                3. [النشاط 3]
-                
-                لا تضف أي مقدمة أو خاتمة أو نص خارج تنسيق Markdown. استخدم Google Search grounding للمعلومات الحديثة.`;
-
-                const textUserQuery = `أنشئ ملخص سفر عن: ${destination}`;
-                
-                const textPayload = {
-                    contents: [{ parts: [{ text: textUserQuery }] }],
-                    tools: [{ "google_search": {} }], 
-                    systemInstruction: { parts: [{ text: textSystemPrompt }] },
-                };
-
-                const textResponse = await fetchWithRetry(textApiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(textPayload)
-                });
-                const textResult = await textResponse.json();
-                
-                let summaryText = textResult.candidates?.[0]?.content?.parts?.[0]?.text;
-                
-                if (!summaryText) {
-                    summaryText = '<p class="text-red-500">فشل في توليد الملخص النصي.</p>';
-                    throw new Error("فشل توليد النص.");
-                }
-
-                // --- Handle Text Output ---
-                const formattedText = summaryText
-                    .replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-indigo-700">$1</span>')
-                    .replace(/\n\n/g, '<br><br>')
-                    .replace(/\n/g, '<br>');
-
-                outputDiv.innerHTML = `<div class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-sm leading-relaxed">${formattedText}</div>`;
-
-            } catch (e) {
-                outputDiv.innerHTML = `<p class="text-red-500 p-4">خطأ في الخدمة (النص): ${e.message}</p>`;
-            }
-
-            // --- Step 2: Display Placeholder Image (INSTANT) ---
-            // We use a placehold.co URL which is fast and provides an instant visual confirmation.
-            try {
-                // Ensure text is URL-safe and limit length for aesthetics
-                const maxLen = 30;
-                let placeholderText = destination.split(' ').join('+');
-                if (placeholderText.length > maxLen) {
-                    placeholderText = placeholderText.substring(0, maxLen - 3) + '...';
-                }
-                
-                // Using a professional, subtle color palette for the placeholder
-                const imageUrl = `https://placehold.co/600x338/546087/ffffff?text=${placeholderText}`;
-
-                imageEl.onload = () => {
-                    imagePlaceholder.classList.add('hidden');
-                    imageEl.classList.remove('hidden');
-                    imageEl.classList.add('loaded');
-                };
-                imageEl.onerror = () => {
-                    imagePlaceholder.innerHTML = '<p class="text-sm text-red-500 p-4">فشل في تحميل الصورة النائبة.</p>';
-                    imageEl.classList.add('hidden');
-                };
-                imageEl.src = imageUrl;
-
-            } catch (e) {
-                imagePlaceholder.innerHTML = `<p class="text-sm text-red-500 p-4">خطأ في عرض الصورة النائبة: ${e.message}</p>`;
-            } finally {
-                // --- Reset Button State ---
-                spotlightButton.disabled = false;
-                spotlightButton.innerHTML = 'جلب الملخص والصورة | سەرنجەکە و وێنەکە بێنە';
-            }
+                btn.disabled = false;
+                btn.innerHTML = '✨ جلب المعلومات والصور';
+            }, 1500);
         }
 
-        /**
-         * Feature 2: Translates a message using the Gemini API.
-         */
         window.translateMessage = async function() {
-            const inputMessage = document.getElementById('translation-input').value.trim();
-            const targetLanguage = document.getElementById('language-select').value;
-            const outputDiv = document.getElementById('translation-output');
-
-            if (!inputMessage) {
-                showModal("مطلوب إدخال", "الرجاء إدخال رسالة ترغب في ترجمتها.", true);
-                return;
-            }
-
-            // Loading indicator
-            outputDiv.innerHTML = '<div class="text-center py-4"><span class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-green-500 rounded-full spinner" role="status"></span><p class="text-sm text-gray-500 mt-2">جاري ترجمة رسالتك...</p></div>';
+            const input = document.getElementById('translation-input');
+            const output = document.getElementById('translation-output');
+            if(!input.value.trim()) return showModal('تنبيه', 'يرجى كتابة نص للترجمة', true);
             
+            output.innerHTML = '<span class="animate-pulse">جاري الترجمة...</span>';
+            
+            // Using Gemini API
             const model = 'gemini-2.5-flash-preview-09-2025';
-            const apiUrl = `${API_URL_BASE}${model}:generateContent?key=${API_KEY}`;
-
-            // System prompt allows Arabic, Kurdish (Sorani), English, or Turkish translation
-            const systemPrompt = `أنت مترجم لغة محترف. ترجم رسالة المستخدم بدقة إلى اللغة الهدف المحددة، والتي يجب أن تكون إما العربية أو الكردية (سوراني) أو الإنجليزية أو التركية. قم بإخراج النص المترجم فقط. لا تقم بتضمين أي تفسيرات أو مقدمات أو نص مصدر.`;
-
-            const userQuery = `Translate the following text into ${targetLanguage}: "${inputMessage}"`;
-
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-            };
-
+            const targetLang = document.getElementById('language-select').value;
+            
             try {
-                const response = await fetchWithRetry(apiUrl, {
+                const response = await fetchWithRetry(`${API_URL_BASE}${model}:generateContent?key=${API_KEY}`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Translate this to ${targetLang}: ${input.value}` }] }]
+                    })
                 });
-                const result = await response.json();
-                
-                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "فشلت الترجمة.";
-                
-                outputDiv.innerHTML = `<div class="p-4 bg-green-50 border border-green-200 rounded-xl text-sm leading-relaxed font-semibold">${text}</div>`;
-
-            } catch (e) {
-                outputDiv.innerHTML = `<p class="text-red-500 p-4">خطأ أثناء الترجمة: ${e.message}</p>`;
-                showModal("خطأ في واجهة برمجة التطبيقات", "حدثت مشكلة في الاتصال بخدمة الترجمة. يرجى التحقق من اتصالك أو المحاولة مرة أخرى لاحقًا.", true);
+                const data = await response.json();
+                output.innerHTML = `<span class="font-bold text-emerald-700">${data.candidates[0].content.parts[0].text}</span>`;
+            } catch(e) {
+                output.innerHTML = '<span class="text-red-500">حدث خطأ</span>';
             }
         }
 
-        // Initialize the tours data on load
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             renderTours();
-            cycleBackgroundColor(); // Set initial color
-            setInterval(cycleBackgroundColor, 5000); // Change color every 5 seconds
-            showTab('tours'); // <-- Start on Tours tab as requested
+            showTab('tours');
         });
     </script>
-
 </body>
 </html>
