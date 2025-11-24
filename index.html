@@ -34,13 +34,12 @@
         .ink-splash {
             position: absolute;
             opacity: 0.6; 
-            /* Filter removed for sharp, fluid edges */
-            mix-blend-mode: multiply; /* Allows colors to blend like real ink */
+            mix-blend-mode: multiply; 
             animation: floatInk 25s infinite ease-in-out alternate;
             will-change: transform, border-radius;
         }
 
-        /* Splash 1: Ocean Depth (Deep Teal/Blue) - Solid gradient to edge to show shape */
+        /* Splash 1: Ocean Depth */
         .splash-1 {
             top: -10%;
             right: -10%;
@@ -50,7 +49,7 @@
             animation-delay: 0s;
         }
 
-        /* Splash 2: Clear Sky (Bright Blue) */
+        /* Splash 2: Clear Sky */
         .splash-2 {
             bottom: -10%;
             left: -10%;
@@ -60,7 +59,7 @@
             animation-delay: -5s;
         }
 
-        /* Splash 3: Cyan Waters (Teal) */
+        /* Splash 3: Cyan Waters */
         .splash-3 {
             top: 40%;
             left: 30%;
@@ -96,8 +95,8 @@
 
         /* --- Main Panel --- */
         .clean-panel {
-            background: rgba(255, 255, 255, 0.85); /* Slightly more transparent to see ink */
-            backdrop-filter: blur(12px); /* Glassmorphism */
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
             border: 1px solid rgba(255, 255, 255, 0.5); 
             box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.05), 0 10px 10px -5px rgba(15, 23, 42, 0.02);
             transform: translateZ(0);
@@ -223,42 +222,15 @@
             <button id="tab-tours" onclick="showTab('tours')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-700 transition-all duration-300 relative z-10 bg-white shadow-sm">
                 ✈️ الجولات
             </button>
-            <button id="tab-spotlight" onclick="showTab('spotlight')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300 relative z-10">
-                ✨ اكتشف
-            </button>
             <button id="tab-translator" onclick="showTab('translator')" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300 relative z-10">
                 🌐 ترجم
             </button>
             <!-- Tab Indicator -->
-            <div id="tab-indicator" class="absolute inset-y-1 right-1 w-[33.33%] bg-white rounded-xl shadow-md transition-all duration-300"></div>
+            <div id="tab-indicator" class="absolute inset-y-1 right-1 w-[50%] bg-white rounded-xl shadow-md transition-all duration-300"></div>
         </div>
 
 
-        <!-- 1. Destination Spotlight Tab Content -->
-        <div id="content-spotlight" class="tab-content space-y-5 hidden">
-            <div class="bg-white p-6 rounded-3xl shadow-lg border border-slate-100 text-center">
-                <h3 class="text-lg font-bold text-slate-800 mb-2">استكشف وجهتك التالية</h3>
-                <p class="text-sm text-slate-500 mb-4">اكتب اسم أي مدينة وسنقوم بجلب التفاصيل لك.</p>
-                
-                <div class="relative group">
-                    <input type="text" id="destination-input" placeholder="مثال: أنطاليا" class="w-full p-4 pr-12 border-2 border-slate-200 rounded-2xl focus:border-indigo-500 focus:ring-0 outline-none transition-all bg-slate-50 text-right font-medium text-slate-800 group-hover:bg-white">
-                    <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-xl">🌍</span>
-                </div>
-                
-                <button onclick="getDestinationSpotlight()" class="w-full mt-4 p-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform active:scale-95" id="spotlight-button">
-                    ✨ جلب المعلومات
-                </button>
-            </div>
-            
-            <!-- Image display area REMOVED as requested -->
-
-            <div id="spotlight-output" class="p-6 bg-white rounded-3xl shadow-sm border border-slate-100 text-slate-700 min-h-[100px]">
-                <p class="text-sm text-slate-400 text-center italic">الملخص...</p>
-            </div>
-        </div>
-
-
-        <!-- 2. Message Translator Tab Content -->
+        <!-- 1. Message Translator Tab Content -->
         <div id="content-translator" class="tab-content space-y-5 hidden">
             <div class="bg-white p-1 rounded-3xl shadow-sm border border-slate-100">
                 <textarea id="translation-input" rows="4" placeholder="اكتب نص الرسالة هنا..." class="w-full p-5 rounded-[1.2rem] border-none outline-none bg-slate-50 focus:bg-white transition-colors text-right text-slate-800 font-medium resize-none"></textarea>
@@ -267,10 +239,11 @@
             <div class="flex gap-3">
                 <div class="relative flex-grow">
                     <select id="language-select" class="w-full p-4 border-none rounded-2xl bg-emerald-500 text-white font-bold outline-none cursor-pointer appearance-none text-center shadow-md">
-                        <option value="Arabic">إلى العربية</option>
-                        <option value="Kurdish (Sorani)">بۆ کوردی</option>
-                        <option value="English">To English</option>
-                        <option value="Turkish">Türkçe'ye</option>
+                        <option value="ar">إلى العربية</option>
+                        <option value="ckb">بۆ کوردی (Sorani)</option>
+                        <!-- Badini Removed -->
+                        <option value="en">To English</option>
+                        <option value="tr">Türkçe'ye</option>
                     </select>
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-white/70">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
@@ -282,11 +255,11 @@
             </div>
 
             <div id="translation-output" class="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-slate-700 font-medium min-h-[80px] flex items-center justify-center text-center">
-                <span class="text-slate-400 text-sm">الترجمة ستظهر هنا</span>
+                <span class="text-slate-400 text-sm">الترجمة ستظهر هنا (Google Translate Free)</span>
             </div>
         </div>
         
-        <!-- 3. Tour Catalog Tab Content -->
+        <!-- 2. Tour Catalog Tab Content -->
         <div id="content-tours" class="tab-content space-y-8">
             <div id="tours-output" class="space-y-8">
                 <!-- Tour cards rendered by JS -->
@@ -342,39 +315,13 @@
 
             const indicator = document.getElementById('tab-indicator');
             let position = 0;
-            if (tabName === 'spotlight') {
-                position = '33.33%';
-            } else if (tabName === 'translator') {
-                position = '66.66%';
+            if (tabName === 'translator') {
+                position = '50%';
             }
             indicator.style.right = position;
         }
 
-        // --- API & Retry Utility ---
-        const apiKey = "AIzaSyBgacpUZG_TKxtpZrUW35Potn2LTQEB7A4"; 
-        const API_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
-        const MAX_RETRIES = 3;
-        const INITIAL_DELAY = 1000;
-
-        async function fetchWithRetry(url, options, retries = 0) {
-            try {
-                const response = await fetch(url, options);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return await response.json();
-            } catch (error) {
-                if (retries < MAX_RETRIES) {
-                    const delay = INITIAL_DELAY * Math.pow(2, retries) + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    return fetchWithRetry(url, options, retries + 1);
-                } else {
-                    throw new Error("Failed to fetch data from API.");
-                }
-            }
-        }
-
-        // --- Translation Logic ---
+        // --- Translation Logic (Free Google Translate Endpoint) ---
         async function translateMessage() {
             const input = document.getElementById('translation-input').value.trim();
             const targetLang = document.getElementById('language-select').value;
@@ -387,68 +334,31 @@
 
             outputDiv.innerHTML = `<span class="text-emerald-600 text-lg flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> جاري الترجمة...</span>`;
             
-            const model = 'gemini-2.5-flash-preview-09-2025';
-            
+            // Using Google Translate Free Endpoint (Unofficial but widely used for demos)
+            // Note: This endpoint does not require an API key but has rate limits
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(input)}`;
+
             try {
-                const response = await fetchWithRetry(`${API_URL_BASE}${model}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Translate this to ${targetLang}: ${input}` }] }]
-                    })
-                });
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
                 
-                if (response.candidates && response.candidates[0] && response.candidates[0].content) {
-                    outputDiv.innerHTML = `<span class="text-slate-800 font-medium">${response.candidates[0].content.parts[0].text}</span>`;
+                // Data structure is usually [[["Translated Text", "Original", ...], ...], ...]
+                if (data && data[0] && data[0][0] && data[0][0][0]) {
+                    // Combine all segments if multiple sentences
+                    let translatedText = "";
+                    data[0].forEach(segment => {
+                        if (segment[0]) translatedText += segment[0];
+                    });
+                    outputDiv.innerHTML = `<span class="text-slate-800 font-medium">${translatedText}</span>`;
                 } else {
-                    throw new Error("No translation returned");
+                    throw new Error("Translation format invalid");
                 }
             } catch (error) {
                 console.error(error);
-                outputDiv.innerHTML = `<span class="text-red-500 text-sm">خطأ في الاتصال بالخدمة. يرجى المحاولة لاحقاً.</span>`;
-            }
-        }
-
-        // --- Destination Spotlight Logic ---
-        async function getDestinationSpotlight() {
-            const destination = document.getElementById('destination-input').value.trim();
-            const spotlightButton = document.getElementById('spotlight-button');
-            const spotlightOutput = document.getElementById('spotlight-output');
-
-            if (!destination) {
-                showModal("خطأ في الإدخال", "الرجاء كتابة اسم المدينة أو الوجهة أولاً.", true);
-                return;
-            }
-
-            spotlightButton.disabled = true;
-            spotlightButton.innerHTML = `<svg class="animate-spin h-5 w-5 mr-3 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> جاري البحث...`;
-            spotlightOutput.innerHTML = `<p class="text-sm text-slate-400 text-center italic">جاري جلب الملخص...</p>`;
-
-            const model = 'gemini-2.5-flash-preview-09-2025';
-            
-            try {
-                // Summary Only
-                const summaryRes = await fetchWithRetry(`${API_URL_BASE}${model}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Summarize the travel destination in Arabic: ${destination}` }] }],
-                        tools: [{ "google_search": {} }]
-                    })
-                });
-                
-                if (summaryRes.candidates && summaryRes.candidates[0]) {
-                    spotlightOutput.innerHTML = `<p class="text-slate-800">${summaryRes.candidates[0].content.parts[0].text}</p>`;
-                } else {
-                    spotlightOutput.innerHTML = `<p class="text-slate-500">لم يتم العثور على معلومات.</p>`;
-                }
-                
-            } catch (e) {
-                console.error(e);
-                spotlightOutput.innerHTML = '<p class="text-red-300">حدث خطأ في الاتصال.</p>';
-            } finally {
-                spotlightButton.innerHTML = '✨ جلب المعلومات';
-                spotlightButton.disabled = false;
+                outputDiv.innerHTML = `<span class="text-red-500 text-sm">خطأ في الاتصال بخدمة الترجمة المجانية.</span>`;
             }
         }
 
@@ -459,7 +369,7 @@
                 name_ku: "گەشتی سابانجا و مەعشوقییە",
                 price: 20, // Updated to $20
                 tag: "طبيعة 🌲",
-                description_ar: "برنامج الرحلة يشمل:\n• زيارة أكواريوم توزلًا مارينا، التوجه الى بحيرة صبنجة.\n• وبعدها زيارة شلالات المعشوقية والغداء ضمن مطعمنا بإطلالته المميزة.\n• التسوق من أفضل مصنع للحلويات والعسل الطبيعي الذي تشتهر به جبال كارتيبه.\n• صعود تلفريك كارتيبه.\n• جولة الموتورات atv في احضان الطبيعة.\n• تجربة ركوب الحبل المعلق zipline.\n• التراس الزجاجي.\n\n**ملاحظة هامة:** الأكواريم والموتورات ATV وركوب الحبل المعلق Zipline والتراس الزجاجي هي أنشطة إختيارية غير مشمولة بالسعر.",
+                description_ar: "برنامج الرحلة يشمل:\n• زيارة أكواريوم توزلًا مارينا، التوجه الى بحيرة صبنجة.\n• وبعدها زيارة شلالات المعشوقية والغداء ضمن مطعمنا بإطلالاته المميزة.\n• التسوق من أفضل مصنع للحلويات والعسل الطبيعي الذي تشتهر به جبال كارتيبه.\n• صعود تلفريك كارتيبه.\n• جولة الموتورات atv في احضان الطبيعة.\n• تجربة ركوب الحبل المعلق zipline.\n• التراس الزجاجي.\n\n**ملاحظة هامة:** الأكواريم والموتورات ATV وركوب الحبل المعلق Zipline والتراس الزجاجي هي أنشطة إختيارية غير مشمولة بالسعر.",
                 description_ku: "بەرنامەی گەشتەکە بریتییە لە:\n• سەردانی ئیکواریۆمی تووزڵا مارینا، ڕۆیشتن بۆ دەریاچەی سابانجا.\n• دواتر سەردانی تاڤگەکانی مەعشوقییە و نانخواردنی نیوەڕۆ لە چێشتخانەیەک بە دیمەنێکی نایابەوە.\n• بازاڕکردن لە باشترین کارگەی شیرینی و هەنگوینی سروشتی کە چیای کارتەپە پێی ناسراوە.\n• سەرکەوتن بە تەلەفریکی کارتەپە.\n• گەشتی ماتۆڕسکیلە atv لە باوەشی سروشتدا.\n• ئەزموونی سواربوونی پەتە هەڵواسراوەکە zipline.\n• ته‌راسی شوشه‌یی.\n\n**تێبینی گرنگ:** ئیکواریۆم، ماتۆڕسکیلە ATV، سواربوونی پەتە هەڵواسراوەکە Zipline، و ته‌راسی شوشه‌یی چالاکیی هەڵبژاردنن و بەشێک نین لە نرخەکە.",
             },
             {
@@ -597,7 +507,7 @@
                 let priceDisplay;
                 if (tour.name_ar === "رحلة بورصا الخضراء") {
                     priceDisplay = `<div class="text-right"><span class="block text-lg font-black text-slate-800">$30 <span class="text-xs font-normal text-slate-400">تلفريك</span></span><span class="block text-sm font-bold text-slate-400">$20 <span class="text-[10px] font-normal">بدون</span></span></div>`;
-                } else if (tour.name_ar === "رحلة البوسفور الليلية بالسفينة") {
+                } else if (tour.name_ar === "رحلة البوسفور الليلية (ليالي إسطنبول)") {
                      priceDisplay = `<div class="flex flex-col items-end">
                         <span class="text-lg font-bold text-slate-800">$35 <span class="text-xs font-normal text-slate-500">سفينة تركية</span></span>
                         <span class="text-lg font-bold text-slate-800">$25 <span class="text-xs font-normal text-slate-500">سفينة عربية</span></span>
@@ -651,4 +561,3 @@
     </script>
 </body>
 </html>
-
